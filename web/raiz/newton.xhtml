@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <ui:insert name="title">
+            <title>Metodo de Newton</title>
+        </ui:insert>
+
+
+        <ui:insert name="head">
+            
+            <link href="${facesContext.externalContext.requestContextPath}/css/cupertino/skin.css" rel="stylesheet" type="text/css" />
+            <link href="${facesContext.externalContext.requestContextPath}/css/customTheme.css" rel="stylesheet" type="text/css" />
+            <link href="${facesContext.externalContext.requestContextPath}/css/layout.css" rel="stylesheet" type="text/css" />
+            <link href="${facesContext.externalContext.requestContextPath}/css/reset.css" rel="stylesheet" type="text/css" />
+            <link rel='stylesheet' type='text/css' href='${facesContext.externalContext.requestContextPath}/openFacesResources/org/openfaces/renderkit/default.css'/>
+            <!--[if IE]>
+                <link href="${facesContext.externalContext.requestContextPath}/css/ie.css" rel="stylesheet" type="text/css" />
+            <![endif]-->
+            <ui:insert name="javascript" />
+            <ui:insert name="css" />
+        </ui:insert>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css">
+            .ui-datatable .ui-datatable-data .even-row td{  
+                background-color:#FFFFFF;  
+            }  
+            .ui-datatable .ui-datatable-data .odd-row td{  
+                background-color:#E0EBFF;  
+            }  </style>
+    </h:head>
+
+    <h:body  >
+         <ui:composition template="./../NCalcTemplate.xhtml">
+            <ui:define name="top">
+
+            </ui:define>
+
+            <ui:define name="left">
+                left
+            </ui:define>
+
+            <ui:define name="right">
+                <div>Tabela de convergência </div>
+                <p:dataTable var="hist" value="#{newtonBean.raizList}" 
+                             rowStyleClass="#{empty rowIx or rowIx mod 2 ne 0 ? 'even-row' : 'odd-row'}" rowIndexVar="rowIx" >
+
+                    <p:column headerText="N"  >
+                        <h:outputText value="#{hist.it}"/>
+                    </p:column>
+
+                    <p:column headerText="x" >
+                        <h:outputText value="#{hist.xn}">
+                            <f:convertNumber pattern="####.000000"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="f(x)" >
+                        <h:outputText value="#{hist.fxn}">
+                            <f:convertNumber pattern="####.000000"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="f'(x)"  >
+                        <h:outputText value="#{hist.difffxn}">
+                            <f:convertNumber pattern="####.000000"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Erro" >
+                        <h:outputText value="#{hist.erro}" >
+                            <f:convertNumber pattern="####.000000"/>
+                        </h:outputText>
+                    </p:column>                  
+                </p:dataTable>
+                <h:outputText value="Resultado: f(x) = #{newtonBean.f} " >
+                    <f:convertNumber pattern="####.0000000000000"/>
+                </h:outputText>
+                <h:outputText value="  zera  em x = #{newtonBean.result}." >
+                    <f:convertNumber pattern="####.00000000000000000000"/>
+                </h:outputText>
+                <h:outputText value="  Tolerância de #{newtonBean.eps}" >
+                    <f:convertNumber pattern="####.0000000000000"/>
+                </h:outputText>
+            </ui:define>
+
+            <ui:define name="content">
+                <div>Insira os dados para o cálculo da raiz de uma função pelo método de Newton</div>
+                <h:form>
+                    
+                     <h:outputScript name="Chart/Chart.js" library="js"/>
+                     <h:outputScript name="Parser.js" library="js"/>
+                     <h:outputScript name="plotter.js" library="js"/>
+         
+                    <h:outputLabel for="func" value="f(x):"/>
+                    <h:inputText id="func" value="#{newtonBean.f}"  validator="#{newtonBean.validateExpr}"/>
+                    <h:commandButton value="Plot" type="button" onclick="drawF()" />
+                    
+                      
+                    <h:message id="m1" for="func" style="color:red"/> <p></p>                    
+                    <h:outputLabel for="diffFunc" value="f'(x):"/>
+                    <h:inputText id="diffFunc" value="#{newtonBean.diffF}" validator="#{newtonBean.validateExpr}"/>            
+                    <h:message id="m2" for="diffFunc" style="color:red"/> 
+                    <h:commandButton value="Plot" type="button" onclick="drawF()" />
+                    
+                    
+                    <p></p>
+                    
+                    <h:outputLabel for="Low" value="a: "  />
+                    <h:inputText id="low" value="#{newtonBean.low}" maxlength="8"  
+                                 converter="javax.faces.Double"/>
+                    <h:message id="m3" for="low" style="color:red"/> 
+                    
+                    
+                    <h:outputLabel for="high" value="b:"/>
+                    <h:inputText id="high" value="#{newtonBean.high}" maxlength="8"             
+                                 converter="javax.faces.Double"/>
+                    <h:message id="m4" for="high" style="color:red"/> 
+                    
+                    <h:outputLabel for="tol" value="Tolerância:"/>
+                    <h:inputText id="tol" value="#{newtonBean.eps}" converter="javax.faces.Double"/>
+                    <h:message id="m5" for="tol" style="color:red"/> 
+                    <h:commandButton value="Ok" action="#{newtonBean.raiz}"/>
+                </h:form>
+                <p></p>
+                <h:form>
+                                    
+                    <canvas id="canvas" width="750" height="400"></canvas>
+                    <h:commandButton value="Zoom+" type="button" onclick="zoomDown()" />     
+                    <h:commandButton value="Zoom-" type="button" onclick="zoomUp()" />
+                    <h:commandButton value="Clear" type="button" onclick="clear2()" />
+                    
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+
+
+    </h:body>
+</html>
