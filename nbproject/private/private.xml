@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/web/raiz/newton.xhtml</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/src/java/calcnumerico/CalcNumerico.java</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/src/java/calcnumerico/raiz/Bissecao.java</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/src/java/Beans/BissecaoBean.java</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/src/java/calcnumerico/sistemasLineares/Gauss.java</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/web/sistemas-lineares/gauss.xhtml</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/src/java/utils/Matrix.java</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/web/NCalcTemplate.xhtml</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/src/java/Beans/sistemasLineares/GaussBean.java</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/web/raiz/bissecao.xhtml</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/src/java/calcnumerico/raiz/BissecaoIterationData.java</file>
+            <file>file:/C:/Users/ald1r/Documents/NetBeansProjects/NumericCalc/web/index.xhtml</file>
+        </group>
+    </open-files>
+</project-private>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:head>
+        <ui:insert name="title">
+            <title>Metodo de Gauss para Sistemas Lineares</title>
+        </ui:insert>
+
+
+        <ui:insert name="head">
+
+            <link href="${facesContext.externalContext.requestContextPath}/css/cupertino/skin.css" rel="stylesheet" type="text/css" />
+            <link href="${facesContext.externalContext.requestContextPath}/css/customTheme.css" rel="stylesheet" type="text/css" />
+            <link href="${facesContext.externalContext.requestContextPath}/css/layout.css" rel="stylesheet" type="text/css" />
+            <link href="${facesContext.externalContext.requestContextPath}/css/reset.css" rel="stylesheet" type="text/css" />
+            <link rel='stylesheet' type='text/css' href='${facesContext.externalContext.requestContextPath}/openFacesResources/org/openfaces/renderkit/default.css'/>
+            <!--[if IE]>
+                <link href="${facesContext.externalContext.requestContextPath}/css/ie.css" rel="stylesheet" type="text/css" />
+            <![endif]-->
+            <ui:insert name="javascript" />
+            <ui:insert name="css" />
+        </ui:insert>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    </h:head>
+
+    <h:body  >
+        <ui:composition template="./../NCalcTemplate.xhtml">
+            <ui:define name="top">
+
+            </ui:define>
+
+            <ui:define name="left">
+                left
+            </ui:define>
+
+            <ui:define name="right">
+                <div><strong>Solucao (x)</strong> </div>
+                <c:forEach items="#{gaussBean.sx}" var="rowx">
+                    <c:forEach items="#{rowx}" var="nested_rowx">
+                        <p>#{nested_rowx}</p>
+                    </c:forEach>
+                </c:forEach>
+                <div><strong>Resíduo (r)</strong> </div>
+                <c:forEach items="#{gaussBean.sr}" var="row">
+                    <c:forEach items="#{row}" var="nested_row">
+                        <p>#{nested_row}</p>
+                    </c:forEach>
+                </c:forEach>
+
+
+            </ui:define>
+
+            <ui:define name="content">
+                <div>Inserir a matriz A e o vetor b, para o calculo de x = b/A</div>
+                <h:form>
+
+                    <h:outputLabel for="A" value="Matriz A"/>
+                    <p:inputTextarea id="A" rows="10" cols="50" value="#{gaussBean.sA}"></p:inputTextarea>
+
+                    <h:outputLabel for="b" value="Vetor b"/>
+                    <p:inputTextarea id="b" rows="10" cols="2" value="#{gaussBean.sb}"></p:inputTextarea>
+
+                    <h:commandButton value="Ok" action="#{gaussBean.solve}"/>
+                </h:form>
+                <p>
+                    <div><strong>#{gaussBean.msgMatrizATria}</strong></div>
+                </p>
+                <h:form> 
+                    <h:panelGrid columns="#{gaussBean.colNum}">
+                        <c:forEach var="row" items="#{gaussBean.triu}">
+
+                            <c:forEach var="value" items="#{row}">                               
+
+                                <h:outputText value="#{value}">
+                                    <f:convertNumber pattern="####.000000"/>
+                                </h:outputText>
+                            </c:forEach>
+                        </c:forEach>
+                    </h:panelGrid>
+                </h:form> 
+
+
+                <p>
+                    <div><strong>#{gaussBean.msgMatrizb}</strong></div>
+                </p>
+                <h:form> 
+                    <c:forEach items="${gaussBean.b.toList()}" var="btri">
+                        <p> 
+                            <c:forEach items="#{btri}" var="btrow">
+                                #{btrow}
+                            </c:forEach>
+                        </p>
+                    </c:forEach>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+
+    </h:body>
+</html>
